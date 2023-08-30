@@ -32,14 +32,14 @@ function deletePost(slug: string) {
         />
       </svg>
     </button>
-    <a href="detail.html?slug=${post.slug}" class="block">
+    <RouterLink :to="{ name: 'edit', params: { id: props.post.slug } }" class="block">
       <section class="mb-2.5">
         <h2 class="font-semibold text-lg md:text-xl text-gray-700">{{ props.post.title }}</h2>
       </section>
       <div>
         <p class="text-sm md:text-base text-gray-700">{{ props.post.synopsis }}</p>
       </div>
-    </a>
+    </RouterLink>
   </article>
 </template>
 
