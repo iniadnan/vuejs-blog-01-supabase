@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import InputForm from '@/components/InputForm.vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import SUPABASE from '@/supabaseClient'
 import { ref } from 'vue'
 
 const route = useRoute()
+const router = useRouter()
 const slug = ref<any>(route.params.id)
 const post = ref<any>()
+
+const setTitle = ref<string>('')
+const setSynopsis = ref<string>('')
+const setSlug = ref<string>('')
+const setAuthor = ref<string>('')
+const setText = ref<string>('')
 
 async function getPost() {
   try {
@@ -25,7 +32,22 @@ async function getPost() {
 }
 
 async function onUpdateData() {
-  console.log('asd')
+  const { error: errorUpdate } = await SUPABASE.from('posts')
+    .update({
+      title: setTitle.value != '' ? setTitle.value : post.value.title,
+      synopsis: setSynopsis.value != '' ? setSynopsis.value : post.value.synopsis,
+      slug: setSlug.value != '' ? setSlug.value : post.value.slug,
+      author: setAuthor.value != '' ? setAuthor.value : post.value.author,
+      text: setText.value != '' ? setText.value : post.value.text
+    })
+    .eq('id', post.value.id)
+
+  if (errorUpdate !== null) {
+    throw errorUpdate
+  }
+
+  // REDIRECT
+  router.push({ name: 'home' })
 }
 
 getPost()
@@ -36,6 +58,7 @@ getPost()
     <form id="form__modal" name="form__modal" class="py-5 w-full max-w-[800px] mx-auto" v-if="post">
       <input type="hidden" name="id" id="id" />
       <InputForm
+        @update:modelValue="(newValue: string) => (setTitle = newValue)"
         class="mb-5"
         title="Title"
         id="title"
@@ -44,6 +67,7 @@ getPost()
         name="title"
       />
       <InputForm
+        @update:modelValue="(newValue: string) => (setSynopsis = newValue)"
         class="mb-5"
         title="Synopsis"
         id="synopsis"
@@ -51,8 +75,17 @@ getPost()
         :value="post.synopsis"
         name="synopsis"
       />
-      <InputForm class="mb-5" title="Slug" id="slug" type="text" :value="post.slug" name="slug" />
       <InputForm
+        @update:modelValue="(newValue: string) => (setSlug = newValue)"
+        class="mb-5"
+        title="Slug"
+        id="slug"
+        type="text"
+        :value="post.slug"
+        name="slug"
+      />
+      <InputForm
+        @update:modelValue="(newValue: string) => (setAuthor = newValue)"
         class="mb-5"
         title="Author"
         id="author"
@@ -63,6 +96,7 @@ getPost()
       <div class="mb-5">
         <label for="text" class="text-base text-gray-700 inline-block pb-2">Text</label>
         <textarea
+          @update:modelValue="(newValue: string) => (setText = newValue)"
           type="text"
           name="text"
           id="text"
