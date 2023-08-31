@@ -11,6 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
+  change: [id: number]
   update: [value: string]
 }>()
 </script>

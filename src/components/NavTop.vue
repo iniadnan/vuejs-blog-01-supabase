@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-const isModalShow = ref<boolean>(false)
-
-function toggleModal() {
-  isModalShow.value = !isModalShow.value
-}
+const emit = defineEmits<{
+  change: [id: number]
+  update: [value: string]
+}>()
 </script>
 
 <template>
@@ -16,7 +13,7 @@ function toggleModal() {
       >
       <button
         type="button"
-        @click="toggleModal()"
+        @click="$emit('toggleModal')"
         class="text-base text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium py-2 px-5 rounded-lg"
       >
         New Post
