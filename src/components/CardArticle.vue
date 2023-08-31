@@ -5,15 +5,15 @@ interface Props {
 
 const props = defineProps<Props>()
 
-function deletePost(slug: string) {
-  console.log(slug)
-}
+const emit = defineEmits<{
+  deletePost: [value: string]
+}>()
 </script>
 
 <template>
   <article class="relative bg-gray-50 hover:bg-gray-100 border rounded-lg py-3 px-5">
     <button
-      @click="deletePost(props.post.slug)"
+      @click="$emit('deletePost', props.post.slug)"
       type="button"
       class="absolute top-0 right-0 bg-red-600 py-2 px-2 rounded text-gray-50 z-10"
     >

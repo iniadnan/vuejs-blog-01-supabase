@@ -25,6 +25,7 @@ async function getPost() {
     if (errorPost !== null) {
       throw errorPost
     }
+    setText.value = resultPost.text
     post.value = resultPost
   } catch (e) {
     console.log(e)
@@ -32,22 +33,26 @@ async function getPost() {
 }
 
 async function onUpdateData() {
-  const { error: errorUpdate } = await SUPABASE.from('posts')
-    .update({
-      title: setTitle.value != '' ? setTitle.value : post.value.title,
-      synopsis: setSynopsis.value != '' ? setSynopsis.value : post.value.synopsis,
-      slug: setSlug.value != '' ? setSlug.value : post.value.slug,
-      author: setAuthor.value != '' ? setAuthor.value : post.value.author,
-      text: setText.value != '' ? setText.value : post.value.text
-    })
-    .eq('id', post.value.id)
+  try {
+    const { error: errorUpdate } = await SUPABASE.from('posts')
+      .update({
+        title: setTitle.value != '' ? setTitle.value : post.value.title,
+        synopsis: setSynopsis.value != '' ? setSynopsis.value : post.value.synopsis,
+        slug: setSlug.value != '' ? setSlug.value : post.value.slug,
+        author: setAuthor.value != '' ? setAuthor.value : post.value.author,
+        text: setText.value
+      })
+      .eq('id', post.value.id)
 
-  if (errorUpdate !== null) {
-    throw errorUpdate
+    if (errorUpdate !== null) {
+      throw errorUpdate
+    }
+
+    // REDIRECT
+    router.push({ name: 'home' })
+  } catch (e) {
+    console.log(e)
   }
-
-  // REDIRECT
-  router.push({ name: 'home' })
 }
 
 getPost()
@@ -95,12 +100,11 @@ getPost()
       <div class="mb-5">
         <label for="text" class="text-base text-gray-700 inline-block pb-2">Text</label>
         <textarea
-          @update:modelValue="(newValue: string) => (setText = newValue)"
+          v-model="setText"
           type="text"
           name="text"
           id="text"
           class="bg-gray-100 w-full focus:outline-none py-2 px-4 rounded"
-          :value="post.text"
           rows="5"
         ></textarea>
       </div>

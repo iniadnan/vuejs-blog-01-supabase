@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import InputForm from '@/components/InputForm.vue'
+import SUPABASE from '@/supabaseClient'
 import { ref } from 'vue'
 
 const setTitle = ref<string>('')
@@ -8,8 +9,23 @@ const setSlug = ref<string>('')
 const setAuthor = ref<string>('')
 const setText = ref<string>('')
 
-function onToggleModal() {}
-function onInsertData() {}
+async function onInsertData() {
+  try {
+    const { error } = await SUPABASE.from('posts').insert({
+      title: setTitle.value,
+      synopsis: setSynopsis.value,
+      slug: setSlug.value,
+      author: setAuthor.value,
+      text: setText.value
+    })
+
+    if (error !== null) {
+      throw error
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
 </script>
 
 <template>
@@ -27,6 +43,7 @@ function onInsertData() {}
         id="title"
         type="text"
         :value="setTitle"
+        placeholder="Title"
         name="title"
       />
       <InputForm
@@ -36,6 +53,7 @@ function onInsertData() {}
         id="synopsis"
         type="text"
         :value="setSynopsis"
+        placeholder="Synopsis"
         name="synopsis"
       />
       <InputForm
@@ -45,6 +63,7 @@ function onInsertData() {}
         id="slug"
         type="text"
         :value="setSlug"
+        placeholder="Slug"
         name="slug"
       />
       <InputForm
@@ -54,17 +73,18 @@ function onInsertData() {}
         id="author"
         type="text"
         :value="setAuthor"
+        placeholder="Author"
         name="author"
       />
       <div class="mb-5">
         <label for="text" class="text-base text-gray-700 inline-block pb-2">Text</label>
         <textarea
-          @update:modelValue="(newValue: string) => (setText = newValue)"
           type="text"
           name="text"
           id="text"
           class="bg-gray-100 w-full focus:outline-none py-2 px-4 rounded"
-          :value="setText"
+          v-model="setText"
+          placeholder="Text"
           rows="5"
         ></textarea>
       </div>

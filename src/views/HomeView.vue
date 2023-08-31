@@ -22,6 +22,18 @@ async function getPosts() {
   }
 }
 
+async function onDeletePost(slug: string) {
+  try {
+    const { error } = await SUPABASE.from('posts').delete().eq('slug', slug)
+
+    if (error !== null) {
+      throw error
+    }
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 getPosts()
 </script>
 
@@ -31,7 +43,12 @@ getPosts()
     <div class="container mx-auto px-5 w-full md:w-[900px] lg:w-[1200px]">
       <!-- ARTICLE LIST -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <CardArticle v-for="(post, index) in posts" :key="index" :post="post"></CardArticle>
+        <CardArticle
+          v-for="(post, index) in posts"
+          :key="index"
+          :post="post"
+          @delete-post="onDeletePost"
+        ></CardArticle>
       </div>
       <!-- PAGINATION -->
       <div></div>
