@@ -3,9 +3,9 @@ import { ref } from 'vue'
 
 const search = ref<string | number>('')
 
-function onSearch() {
-  console.log(search.value)
-}
+const emit = defineEmits<{
+  keyUpSearch: [value: string]
+}>()
 </script>
 
 <template>
@@ -37,7 +37,7 @@ function onSearch() {
             type="search"
             v-model="search"
             id="default-search"
-            @keyup="onSearch"
+            @keyup="$emit('keyUpSearch', search)"
             class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             placeholder="Search Article"
             required

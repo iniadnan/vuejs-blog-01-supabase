@@ -5,6 +5,7 @@ import CardArticle from '@/components/CardArticle.vue'
 import SUPABASE from '@/supabaseClient'
 import { ref } from 'vue'
 
+const allPosts = ref<any>()
 const posts = ref<any>()
 
 async function getPosts() {
@@ -16,6 +17,7 @@ async function getPosts() {
     if (postsError !== null) {
       throw postsError
     }
+    allPosts.value = resultPosts
     posts.value = resultPosts
   } catch (e) {
     console.log(e)
@@ -34,11 +36,25 @@ async function onDeletePost(slug: string) {
   }
 }
 
+function onSearch(val: string) {
+  let stringSearch: string = val
+
+  if (stringSearch.length < 1) {
+    return (posts.value = allPosts)
+  }
+
+  const filteredPosts = allPosts.value.filter((post: any) => {
+    return post.title.toLowerCase().includes(stringSearch.toLowerCase())
+  })
+
+  posts.value = filteredPosts
+}
+
 getPosts()
 </script>
 
 <template>
-  <HeaderHome></HeaderHome>
+  <HeaderHome @key-up-search="onSearch"></HeaderHome>
   <main>
     <div class="container mx-auto px-5 w-full md:w-[900px] lg:w-[1200px]">
       <!-- ARTICLE LIST -->
