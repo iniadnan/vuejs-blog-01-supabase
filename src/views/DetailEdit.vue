@@ -62,7 +62,7 @@ getPost()
   <main class="py-10">
     <form id="form__modal" name="form__modal" class="py-5 w-full max-w-[800px] mx-auto" v-if="post">
       <InputForm
-        @update:modelValue="(newValue: string) => (setTitle = newValue)"
+        @modelValue="(newValue: string) => (setTitle = newValue)"
         class="mb-5"
         title="Title"
         id="title"
@@ -71,7 +71,7 @@ getPost()
         name="title"
       />
       <InputForm
-        @update:modelValue="(newValue: string) => (setSynopsis = newValue)"
+        @modelValue="(newValue: string) => (setSynopsis = newValue)"
         class="mb-5"
         title="Synopsis"
         id="synopsis"
@@ -80,7 +80,7 @@ getPost()
         name="synopsis"
       />
       <InputForm
-        @update:modelValue="(newValue: string) => (setSlug = newValue)"
+        @modelValue="(newValue: string) => (setSlug = newValue)"
         class="mb-5"
         title="Slug"
         id="slug"
@@ -89,7 +89,7 @@ getPost()
         name="slug"
       />
       <InputForm
-        @update:modelValue="(newValue: string) => (setAuthor = newValue)"
+        @modelValue="(newValue: string) => (setAuthor = newValue)"
         class="mb-5"
         title="Author"
         id="author"

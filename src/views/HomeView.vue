@@ -51,7 +51,7 @@ function onSearch(val: string) {
   let stringSearch: string = val
 
   if (stringSearch.length < 1) {
-    return (posts.value = allPosts)
+    return (posts.value = allPosts.value)
   }
 
   const filteredPosts = allPosts.value.filter((post: any) => {
