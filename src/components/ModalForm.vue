@@ -37,7 +37,7 @@ async function onInsertData() {
     </div>
     <form id="form__modal" name="form__modal" class="py-5 max-h-[400px] overflow-y-auto">
       <InputForm
-        @update:modelValue="(newValue: string) => (setTitle = newValue)"
+        @modelValue="(newValue: string) => (setTitle = newValue)"
         class="mb-5"
         title="Title"
         id="title"
@@ -47,7 +47,7 @@ async function onInsertData() {
         name="title"
       />
       <InputForm
-        @update:modelValue="(newValue: string) => (setSynopsis = newValue)"
+        @modelValue="(newValue: string) => (setSynopsis = newValue)"
         class="mb-5"
         title="Synopsis"
         id="synopsis"
@@ -57,7 +57,7 @@ async function onInsertData() {
         name="synopsis"
       />
       <InputForm
-        @update:modelValue="(newValue: string) => (setSlug = newValue)"
+        @modelValue="(newValue: string) => (setSlug = newValue)"
         class="mb-5"
         title="Slug"
         id="slug"
@@ -67,7 +67,7 @@ async function onInsertData() {
         name="slug"
       />
       <InputForm
-        @update:modelValue="(newValue: string) => (setAuthor = newValue)"
+        @modelValue="(newValue: string) => (setAuthor = newValue)"
         class="mb-5"
         title="Author"
         id="author"

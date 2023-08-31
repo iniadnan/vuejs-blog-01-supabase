@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import HeaderHome from '@/components/HeaderHome.vue'
 import CardArticle from '@/components/CardArticle.vue'
+import NavTop from '@/components/NavTop.vue'
+import ModalForm from '@/components/ModalForm.vue'
 
 import SUPABASE from '@/supabaseClient'
 import { ref } from 'vue'
 
 const allPosts = ref<any>()
 const posts = ref<any>()
+const isModalShow = ref<boolean>(false)
 
 async function getPosts() {
   try {
@@ -31,6 +34,14 @@ async function onDeletePost(slug: string) {
     if (error !== null) {
       throw error
     }
+
+    allPosts.value = posts.value.filter(
+      (post: { title: string; slug: string; author: string; text: string; synopsis: string }) => {
+        return post.slug != slug
+      }
+    )
+
+    posts.value = allPosts.value
   } catch (e) {
     console.log(e)
   }
@@ -50,10 +61,15 @@ function onSearch(val: string) {
   posts.value = filteredPosts
 }
 
+function toggleModal() {
+  isModalShow.value = !isModalShow.value
+}
+
 getPosts()
 </script>
 
 <template>
+  <NavTop @toggle-modal="toggleModal()" />
   <HeaderHome @key-up-search="onSearch"></HeaderHome>
   <main>
     <div class="container mx-auto px-5 w-full md:w-[900px] lg:w-[1200px]">
@@ -70,4 +86,5 @@ getPosts()
       <div></div>
     </div>
   </main>
+  <ModalForm @toggle-modal="toggleModal()" :class="isModalShow === true ? 'fixed' : 'hidden'" />
 </template>

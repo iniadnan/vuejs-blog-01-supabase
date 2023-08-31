@@ -11,8 +11,7 @@ interface Props {
 const props = defineProps<Props>()
 
 const emit = defineEmits<{
-  change: [id: number]
-  update: [value: string]
+  modelValue: [value: string]
 }>()
 </script>
 
@@ -28,7 +27,7 @@ const emit = defineEmits<{
       class="bg-gray-100 w-full focus:outline-none py-2 px-4 rounded"
       :placeholder="props.placeholder"
       :value="props.value"
-      @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
+      @input="$emit('modelValue', ($event.target as HTMLInputElement).value)"
     />
   </div>
 </template>
