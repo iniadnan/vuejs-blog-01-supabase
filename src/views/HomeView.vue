@@ -61,6 +61,11 @@ function onSearch(val: string) {
   posts.value = filteredPosts
 }
 
+function afterInsertData() {
+  console.log('asd')
+  getPosts()
+}
+
 function toggleModal() {
   isModalShow.value = !isModalShow.value
 }
@@ -69,7 +74,7 @@ getPosts()
 </script>
 
 <template>
-  <NavTop @toggle-modal="toggleModal()" />
+  <NavTop @toggle-modal="toggleModal" />
   <HeaderHome @key-up-search="onSearch"></HeaderHome>
   <main>
     <div class="container mx-auto px-5 w-full md:w-[900px] lg:w-[1200px]">
@@ -86,5 +91,9 @@ getPosts()
       <div></div>
     </div>
   </main>
-  <ModalForm @toggle-modal="toggleModal()" :class="isModalShow === true ? 'fixed' : 'hidden'" />
+  <ModalForm
+    @toggle-modal="toggleModal"
+    @insert-data="afterInsertData"
+    :class="isModalShow === true ? 'fixed' : 'hidden'"
+  />
 </template>

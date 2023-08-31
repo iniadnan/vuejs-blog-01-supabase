@@ -3,6 +3,8 @@ import InputForm from '@/components/InputForm.vue'
 import SUPABASE from '@/supabaseClient'
 import { ref } from 'vue'
 
+const emit = defineEmits(['toggleModal', 'insertData'])
+
 const setTitle = ref<string>('')
 const setSynopsis = ref<string>('')
 const setSlug = ref<string>('')
@@ -22,6 +24,9 @@ async function onInsertData() {
     if (error !== null) {
       throw error
     }
+
+    emit('insertData')
+    emit('toggleModal')
   } catch (e) {
     console.log(e)
   }
