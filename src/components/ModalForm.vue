@@ -35,7 +35,7 @@ async function onInsertData() {
 
 <template>
   <div
-    class="top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 pt-0 pb-3 px-6 w-[500px] bg-gray-50 z-10 shadow"
+    class="top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 pt-0 pb-3 px-6 max-w-[95%] w-full md:w-[500px] bg-gray-50 z-10 shadow-xl"
   >
     <div class="py-3 border-b">
       <h3 class="font-medium text-xl text-gray-500">Add New Post</h3>

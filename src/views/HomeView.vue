@@ -62,7 +62,6 @@ function onSearch(val: string) {
 }
 
 function afterInsertData() {
-  console.log('asd')
   getPosts()
 }
 
@@ -87,8 +86,6 @@ getPosts()
           @delete-post="onDeletePost"
         ></CardArticle>
       </div>
-      <!-- PAGINATION -->
-      <div></div>
     </div>
   </main>
   <ModalForm
